@@ -2,20 +2,42 @@
 
 So far, we have explored most of the core features of Gemini CLI. However, to truly become an efficient user, mastering keyboard shortcuts and some advanced techniques is essential. This chapter will introduce a series of methods that can significantly improve your workflow efficiency.
 
-## Common Keyboard Shortcuts
+## Comprehensive Keyboard Shortcuts
 
-Gemini CLI has many convenient built-in shortcuts for its interactive session, which help you edit, submit, and manage your sessions more quickly.
+Gemini CLI has many convenient built-in shortcuts for its interactive session. Mastering them will significantly speed up your workflow. They can be grouped into the following categories:
 
-| Shortcut | Description |
-| :--- | :--- |
-| **`Ctrl + L`** | Clears the screen, same as the `/clear` command, but faster. |
-| **`Ctrl + D`** | Exits Gemini CLI, same as the `/quit` or `/exit` commands. |
-| **`Ctrl + C`** | Interrupts the current operation, such as canceling an AI response that is being generated. |
-| **`Ctrl + R`** | Searches through your command history. |
-| **`Up/Down Arrows`** | Navigates through the history of prompts you have submitted. |
-| **`Ctrl + V`** | **Safe Paste Mode**. This is a very useful feature when you need to paste multiple lines of code or text. It enters a special paste mode that allows you to preview and edit the pasted content before submitting, avoiding formatting issues or accidental submissions that can occur with a normal paste. |
-| **`Ctrl + Y`** | **YOLO (You Only Live Once) Mode**. This is an advanced feature that automatically approves and executes the first tool call suggested by the model (e.g., a file write or shell command). This is a "trust mode" that can speed up your workflow by skipping the confirmation step when you are completely certain of the model's intent. **Use this feature with caution**, as it may modify files or execute commands without your explicit confirmation. |
-| **`Ctrl + X`** | **Edit with an external editor**. We will discuss this powerful feature in detail in the next section. |
+### General Shortcuts
+- **`Esc`**: Closes dialogs and suggestions.
+- **`Ctrl+C`**: Cancels the ongoing request. Pressing it twice exits the application.
+- **`Ctrl+D`**: Exits the application if the input is empty.
+- **`Ctrl+L`**: Clears the screen.
+- **`Ctrl+O`**: Toggles the display of the debug console.
+- **`Ctrl+S`**: Disables response truncation, allowing long responses to print fully.
+- **`Ctrl+T`**: Toggles the display of tool descriptions.
+- **`Ctrl+Y`**: Toggles auto-approval (YOLO mode) for all tool calls. **Use with caution.**
+- **`Ctrl+G`**: (IDE Integration) See the context the CLI received from the IDE.
+
+### Input & Editing Shortcuts
+- **`Up/Down Arrow`**: Navigates through your input history.
+- **`Ctrl+X`** or **`Meta+Enter`**: Opens the current input in your default system editor (e.g., vim, nano).
+- **`Ctrl+V`**: Pastes clipboard content. If the clipboard contains an image, it will be saved and a reference will be inserted in the prompt.
+- **`Ctrl+A`** or **`Home`**: Moves the cursor to the beginning of the line.
+- **`Ctrl+E`** or **`End`**: Moves the cursor to the end of the line.
+- **`Ctrl+F`** or **`Right Arrow`**: Moves the cursor one character forward.
+- **`Ctrl+B`** or **`Left Arrow`**: Moves the cursor one character backward.
+- **`Ctrl+Right Arrow`**: Moves the cursor one word forward.
+- **`Ctrl+Left Arrow`**: Moves the cursor one word backward.
+- **`Ctrl+W`** or **`Ctrl+Backspace`**: Deletes the word before the cursor.
+- **`Ctrl+Delete`**: Deletes the word after the cursor.
+- **`Ctrl+U`**: Deletes the entire line before the cursor.
+- **`Ctrl+K`**: Deletes the entire line after the cursor.
+
+### Selection & Navigation Shortcuts
+- **(In Suggestions)** **`Tab`** or **`Enter`**: Accepts the selected suggestion.
+- **(In Suggestions)** **`Up/Down Arrow`**: Navigates through suggestions.
+- **(In Radio Buttons)** **`Up/Down Arrow`** or **`k`/`j`**: Moves selection up/down.
+- **(In Radio Buttons)** **`Enter`**: Confirms selection.
+- **(In Radio Buttons)** **`1-9`**: Selects an item by its number.
 
 ## Resolving Shortcut Conflicts
 
