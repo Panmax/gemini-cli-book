@@ -43,16 +43,18 @@ The book is divided into four parts and twelve chapters, systematically covering
 #### **第三部分：高级特性与实战 / Part 3: Advanced Features and Walkthroughs**
 *   **Chapter 8: Integrated Development Environment (IDE) Integration**
     *   [English](./en/part3-advanced-features/chapter08-ide-integration.md) | [中文](./zh/part3-advanced-features/chapter08-ide-integration.md)
-*   **Chapter 9: Extending the Power of Gemini CLI**
+*   **Chapter 9: Extending Gemini CLI with Extensions**
     *   [English](./en/part3-advanced-features/chapter09-extending-gemini-cli.md) | [中文](./zh/part3-advanced-features/chapter09-extending-gemini-cli.md)
-*   **Chapter 10: Project-Level Walkthroughs**
-    *   [English](./en/part3-advanced-features/chapter10-project-walkthroughs.md) | [中文](./zh/part3-advanced-features/chapter10-project-walkthroughs.md)
+*   **Chapter 10: Security and Sandboxing**
+    *   [English](./en/part3-advanced-features/chapter10-security-and-sandboxing.md) | [中文](./zh/part3-advanced-features/chapter10-security-and-sandboxing.md)
+*   **Chapter 11: Project-Level Walkthroughs**
+    *   [English](./en/part3-advanced-features/chapter11-project-walkthroughs.md) | [中文](./zh/part3-advanced-features/chapter11-project-walkthroughs.md)
 
 #### **第四部分：最佳实践与未来展望 / Part 4: Best Practices and Future Outlook**
-*   **Chapter 11: Best Practices and Usage Tips**
-    *   [English](./en/part4-best-practices/chapter11-best-practices.md) | [中文](./zh/part4-best-practices/chapter11-best-practices.md)
-*   **Chapter 12: The Future Outlook**
-    *   [English](./en/part4-best-practices/chapter12-the-future.md) | [中文](./zh/part4-best-practices/chapter12-the-future.md)
+*   **Chapter 12: Best Practices and Usage Tips**
+    *   [English](./en/part4-best-practices/chapter12-best-practices.md) | [中文](./zh/part4-best-practices/chapter12-best-practices.md)
+*   **Chapter 13: The Future Outlook**
+    *   [English](./en/part4-best-practices/chapter13-the-future.md) | [中文](./zh/part4-best-practices/chapter13-the-future.md)
 
 ---
 
