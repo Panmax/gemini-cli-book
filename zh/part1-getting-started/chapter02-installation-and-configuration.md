@@ -87,36 +87,47 @@ npx @google/gemini-cli
     ```
     请将 `YOUR_API_KEY` 替换为您自己的密钥。
 
-## 配置文件 (`settings.json`) 详解
+## 理解配置
 
-Gemini CLI 会将您的设置保存在一个名为 `settings.json` 的文件中。您可以通过运行以下命令找到这个文件的具体位置：
+Gemini CLI 具有高度可配置性。您可以通过命令行标志、环境变量和 `settings.json` 文件来控制其行为。
 
+### 配置的优先级
+设置会按特定的顺序应用，后面的来源会覆盖前面的来源：
+1.  **`settings.json` 文件 (最低优先级):** 默认设置在这里定义。
+2.  **环境变量:** 系统或会话特定的变量 (例如 `GEMINI_MODEL`) 可以覆盖文件中的设置。
+3.  **命令行标志 (最高优先级):** 启动时使用的标志 (例如 `--model gemini-1.5-pro`) 将覆盖该会话的所有其他设置。
+
+### `settings.json` 配置文件
+Gemini CLI 使用 `settings.json` 文件进行持久化配置。您主要会接触到两个位置的文件：
+
+- **用户配置文件:** 位于 `~/.gemini/settings.json`，该文件包含适用于您所有项目的全局设置。
+- **项目配置文件:** 您可以在项目根目录下创建一个 `.gemini/settings.json` 文件。此文件中的设置仅对该项目有效，并将覆盖您的全局用户设置。
+
+这种分层方法允许您在设置全局偏好（如您喜欢的主题）的同时，也为特定项目定义规则（如要使用的确切 Gemini 模型）。
+
+一个 `settings.json` 文件包含许多选项，从 UI 调整到高级工具配置。您可以通过运行以下命令找到您的用户配置文件位置：
 ```bash
 gemini config path
 ```
 
-这个 JSON 文件包含了您的认证信息、偏好设置等。其中一个常见的自定义项是主题。
-
-### 个性化主题设置
-
-Gemini CLI 支持自定义界面主题。您可以通过 `config set` 命令来修改主题颜色。例如，如果您想将主色调（primary）设置为蓝色，强调色（secondary）设置为紫色，可以运行：
-
-```bash
-gemini config set theme.primary "blue"
-gemini config set theme.secondary "purple"
-```
-
-您可以直接编辑 `settings.json` 文件来进行更复杂的颜色定制，支持十六进制颜色码，例如：
-
+**高级技巧:** 您可以在 `settings.json` 文件中直接通过 `$VAR_NAME` 或 `${VAR_NAME}` 语法引用环境变量。这是管理密钥等敏感信息而无需硬编码的强大方法。
 ```json
 {
-  "theme": {
-    "primary": "#8A2BE2",
-    "secondary": "#FF8C00",
-    "danger": "#DC143C",
-    "success": "#00FA9A"
+  "security": {
+    "auth": {
+      "apiKey": "$MY_SECRET_API_KEY"
+    }
   }
 }
 ```
 
-完成以上步骤后，您的 Gemini CLI 就已经完全配置好并准备就绪了。在下一章中，我们将正式开始我们的第一个交互式会话。
+### 个性化主题设置
+一个常见的配置是自定义主题。您可以在您的用户 `settings.json` 文件中进行设置。
+```json
+{
+  "ui": {
+    "theme": "GitHub"
+  }
+}
+```
+您还可以定义完全自定义的主题。有关可用设置和主题的完整列表，请参阅 Gemini CLI 的官方文档。

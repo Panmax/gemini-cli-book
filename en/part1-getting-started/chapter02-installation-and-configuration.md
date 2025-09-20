@@ -87,36 +87,47 @@ For advanced users or in environments where browser login is not possible (e.g.,
     ```
     Please replace `YOUR_API_KEY` with your own key.
 
-## The `settings.json` Configuration File Explained
+## Understanding Configuration
 
-Gemini CLI saves your settings in a file named `settings.json`. You can find the location of this file by running:
+Gemini CLI is highly configurable. You can control its behavior through command-line flags, environment variables, and `settings.json` files.
 
+### Configuration Priority
+Settings are applied in a specific order, with later sources overriding earlier ones:
+1.  **`settings.json` Files (Lowest Priority):** Default settings are defined here.
+2.  **Environment Variables:** System or session-specific variables (e.g., `GEMINI_MODEL`) can override settings from the files.
+3.  **Command-line Flags (Highest Priority):** Flags used at launch (e.g., `--model gemini-1.5-pro`) will override all other settings for that session.
+
+### The `settings.json` Configuration Files
+Gemini CLI uses `settings.json` files for persistent configuration. There are two primary locations you will interact with:
+
+- **User Settings File:** Located at `~/.gemini/settings.json`, this file holds your global settings that apply to all your projects.
+- **Project Settings File:** You can create a `.gemini/settings.json` file inside your project's root directory. Settings in this file are specific to that project and will override your global user settings.
+
+This layered approach allows you to set global preferences (like your favorite theme) while also defining project-specific rules (like the exact Gemini model to use).
+
+A `settings.json` file contains many options, from UI tweaks to advanced tool configurations. You can find the location of your user settings file by running:
 ```bash
 gemini config path
 ```
 
-This JSON file contains your authentication information, preferences, and more. One common customization is the theme.
-
-### Personalizing Theme Settings
-
-Gemini CLI supports custom interface themes. You can change the theme colors using the `config set` command. For example, if you want to set the primary color to blue and the secondary color to purple, you can run:
-
-```bash
-gemini config set theme.primary "blue"
-gemini config set theme.secondary "purple"
-```
-
-You can also directly edit the `settings.json` file for more complex color customizations, using hexadecimal color codes, for example:
-
+**Advanced Tip:** You can reference environment variables directly within your `settings.json` file using the `$VAR_NAME` or `${VAR_NAME}` syntax. This is a powerful way to manage secrets without hardcoding them.
 ```json
 {
-  "theme": {
-    "primary": "#8A2BE2",
-    "secondary": "#FF8C00",
-    "danger": "#DC143C",
-    "success": "#00FA9A"
+  "security": {
+    "auth": {
+      "apiKey": "$MY_SECRET_API_KEY"
+    }
   }
 }
 ```
 
-After completing these steps, your Gemini CLI is fully configured and ready to go. In the next chapter, we will officially begin our first interactive session.
+### Personalizing Theme Settings
+A common configuration is customizing the theme. You can set this in your user `settings.json` file.
+```json
+{
+  "ui": {
+    "theme": "GitHub"
+  }
+}
+```
+You can also define fully custom themes. For a full list of available settings and themes, refer to the official Gemini CLI documentation.
