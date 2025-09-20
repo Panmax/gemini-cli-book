@@ -32,19 +32,27 @@ These are the commands you will interact with most frequently in your daily use.
 
 Gemini CLI provides powerful commands to manage not just your conversation history, but also the state of your project files, giving you a safety net for AI-driven modifications.
 
-### Saving and Resuming Conversations (`/save` & `/resume`)
+### Managing Chat Sessions (`/chat` commands)
 
-These commands allow you to manually save and load the entire history of a conversation. This is extremely useful for handling complex problems that require long, multi-step solutions.
+Instead of saving conversations to external files, the modern Gemini CLI uses a tag-based system to save and restore chat sessions directly within its internal history. This is extremely useful for creating checkpoints in a complex task.
 
-*   **/save [filename]:** Saves the complete history of the current session to a JSON file.
+*   **/chat save <tag>:** Saves the current conversation history under a specific, memorable tag.
     ```
-    > /save my_debug_session
+    > /chat save refactor-in-progress
     ```
-*   **/resume <filename>:** Loads a session history from a previously saved JSON file, restoring the full conversational context.
+*   **/chat resume <tag>:** Restores the conversation history from a previously saved tag.
     ```
-    > /resume my_debug_session.json
+    > /chat resume refactor-in-progress
     ```
-    This feature is ideal for pausing and resuming complex tasks, creating reusable workflow templates, or sharing your process with colleagues.
+*   **/chat list:** Lists all the tags of your saved chat sessions.
+    ```
+    > /chat list
+    ```
+*   **/chat delete <tag>:** Deletes a saved chat session.
+    ```
+    > /chat delete refactor-in-progress
+    ```
+This tag-based system is ideal for pausing and resuming complex tasks or creating reusable workflow templates without cluttering your file system.
 
 ### Undoing File Changes (`/restore`)
 
@@ -52,17 +60,10 @@ This is a powerful safety feature that automatically saves a snapshot of your pr
 
 **Note:** This feature is disabled by default. You must enable it by starting the CLI with the `--checkpointing` flag or by setting `"checkpointing": { "enabled": true }` in your `settings.json` file.
 
-Once enabled, a "checkpoint" is automatically created whenever you approve a tool that modifies the file system (like `write_file`). This checkpoint includes a snapshot of your project files and the conversation history.
+Once enabled, a "checkpoint" is automatically created whenever you approve a tool that modifies the file system (like `write_file`).
 
 *   **/restore:** When run without arguments, it lists all available checkpoints for the current project.
-    ```
-    > /restore
-    ```
 *   **/restore <checkpoint_file>:** Reverts all files in your project to the state captured in the specified checkpoint and restores the conversation history up to that point.
-    ```
-    > /restore 2025-06-22T10-00-00_000Z-my-file.txt-write_file
-    ```
-This gives you the confidence to let the AI perform complex file operations, as you can always undo the changes with a single command.
 
 ## Context Management
 

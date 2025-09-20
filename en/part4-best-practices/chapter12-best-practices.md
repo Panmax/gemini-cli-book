@@ -49,7 +49,7 @@ Many beginners treat AI assistants as a toy for casual Q&A, but this limits thei
 ## Recommendations for Continuous Use of `gemini-cli` in Projects
 
 *   **Establish `GEMINI.md` Standards:** Create a `GEMINI.md` file for each of your projects, defining its tech stack, coding standards, core architecture, etc. This is equivalent to providing the AI with a permanent "onboarding" document for the project.
-*   **Use `/save` and `/resume` to Solidify Workflows:** Save your successful conversation flows for solving typical problems (like "debugging performance issues" or "releasing a new version") to form a team "AI Best Practices Library."
+- **Use `/chat save` and `/chat resume` to build a workflow library:** When you have a successful conversation flow for a common task (like "debug a performance issue" or "release a new version"), save it with a memorable tag using `/chat save <tag>`. This creates a library of best-practice AI workflows for your team.
 *   **Combine with Git:** Tightly integrate your Gemini CLI operations with Git version control. After applying a major refactoring or adding a new feature, create a Git commit immediately. This way, even if an AI operation goes wrong, you can easily roll back to the last stable state.
 
 ## Security Precautions
