@@ -38,7 +38,17 @@ gemini --version
 
 如果终端输出了版本号，那么恭喜您，Gemini CLI 已经成功安装！
 
-### 方式二：使用 `npx` 快速运行
+### 方式二：通过 Homebrew 安装 (macOS)
+
+如果您的操作系统是 macOS 并且已经安装了 [Homebrew](https://brew.sh/)，那么您可以使用 `brew` 来进行安装，这对于 macOS 用户来说通常是更方便的选择。
+
+```bash
+brew install gemini-cli
+```
+
+Homebrew 会自动处理路径和依赖问题。
+
+### 方式三：使用 `npx` 快速运行
 
 如果您不想进行全局安装，或者只是想临时试用一下，您可以使用 `npx`。`npx` 是一个能让您直接运行 npm 包而无需先安装的工具。
 
