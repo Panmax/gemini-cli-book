@@ -1,5 +1,7 @@
 # Dependencies
+LICENSE
 /node_modules
+/temp_docs
 
 # Logs
 logs

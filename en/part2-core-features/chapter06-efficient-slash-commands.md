@@ -58,7 +58,16 @@ This tag-based system is ideal for pausing and resuming complex tasks or creatin
 
 This is a powerful safety feature that automatically saves a snapshot of your project's state **before** any AI-powered tool modifies your files. This allows you to safely experiment with code changes, knowing you can instantly revert them.
 
-**Note:** This feature is disabled by default. You must enable it by starting the CLI with the `--checkpointing` flag or by setting `"checkpointing": { "enabled": true }` in your `settings.json` file.
+> **Note:** This feature is disabled by default. You must enable it by either starting the CLI with the `--checkpointing` flag, or by setting the following in your `settings.json` file:
+> ```json
+> {
+>   "general": {
+>     "checkpointing": {
+>       "enabled": true
+>     }
+>   }
+> }
+> ```
 
 Once enabled, a "checkpoint" is automatically created whenever you approve a tool that modifies the file system (like `write_file`).
 
