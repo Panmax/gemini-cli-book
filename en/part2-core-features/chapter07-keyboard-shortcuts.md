@@ -17,6 +17,23 @@ Gemini CLI has many convenient built-in shortcuts for its interactive session, w
 | **`Ctrl + Y`** | **YOLO (You Only Live Once) Mode**. This is an advanced feature that automatically approves and executes the first tool call suggested by the model (e.g., a file write or shell command). This is a "trust mode" that can speed up your workflow by skipping the confirmation step when you are completely certain of the model's intent. **Use this feature with caution**, as it may modify files or execute commands without your explicit confirmation. |
 | **`Ctrl + X`** | **Edit with an external editor**. We will discuss this powerful feature in detail in the next section. |
 
+## Resolving Shortcut Conflicts
+
+Since Gemini CLI runs inside your terminal application (like iTerm2, Windows Terminal, GNOME Terminal, etc.), its built-in shortcuts can sometimes conflict with the terminal's own shortcuts. For example, a terminal tool might already map `Ctrl+L` to another function, preventing it from clearing the screen in Gemini CLI.
+
+**The Solution:**
+
+The best way to resolve this is to make adjustments in your **terminal application's settings**, not within Gemini CLI. This is because Gemini CLI cannot control how the terminal intercepts keyboard inputs.
+
+Here's what you need to do:
+1.  **Identify the Conflict:** Find out which shortcut is not behaving as expected within Gemini CLI.
+2.  **Locate Terminal Settings:** Open your terminal application's preferences or options and find the relevant section, such as "Keys," "Keybindings," or "Profiles."
+3.  **Modify or Disable the Conflicting Shortcut:** In your terminal's settings, find the conflicting key combination and then choose to:
+    *   **Remap:** Assign the terminal's feature to a new, less common shortcut.
+    *   **Disable:** If the terminal shortcut is not important to you, simply disable it.
+
+By "making way" for Gemini CLI's shortcuts in your terminal's settings, you can ensure that all of the `gemini` command's built-in shortcuts work correctly.
+
 ## Using an External Editor (`Ctrl+X`) for Complex Prompts
 
 When you need to write a prompt that contains a large amount of code, multi-line instructions, or complex logic, the single-line input box in the terminal can feel restrictive. The `Ctrl+X` shortcut is designed to solve this problem.
