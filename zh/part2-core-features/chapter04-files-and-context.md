@@ -92,29 +92,36 @@ Gemini CLI 的多模态能力让它不仅仅能处理代码文件。您可以将
 
 ## 使用 `.geminiignore` 忽略不需要的文件
 
-当您引用一个目录时，里面通常会包含一些您不希望 AI 看到的文件，例如 `node_modules`、构建产物 (`dist`, `.next`)、或者一些包含敏感信息的文件。
+当您引用一个目录时, 里面通常会包含一些您不希望 AI 看到的文件, 例如 `node_modules`、构建产物 (`dist`, `.next`)、或者一些包含敏感信息的文件。为了解决这个问题, 您可以在项目根目录创建一个 `.geminiignore` 文件。
 
-为了解决这个问题，您可以在项目根目录创建一个 `.geminiignore` 文件，它的语法与 `.gitignore` 完全相同。
+它的语法很大程度上遵循 `.gitignore` 文件的约定：
+- 空白行或以 `#` 开头的行会被忽略。
+- 支持标准的 `*` 等通配符模式。
+- 以 `/` 结尾的模式只会匹配目录 (例如, `node_modules/`)。
+- 以 `/` 开始的模式会从项目根目录开始匹配。
+- 以 `!` 开始的模式表示取反, 可以在一个被忽略的模式中重新包含某个文件。
 
 一个典型的 `.geminiignore` 文件：
-
 ```
 # 忽略依赖和构建产物
-node_modules/
-dist/
-build/
+/node_modules/
+/dist/
+/build/
 .next/
 
-# 忽略日志和环境变量文件
+# 忽略所有的 .log 文件
 *.log
+
+# 但不要忽略这个重要的日志文件
+!important.log
+
+# 忽略环境变量文件
 .env
 .env.local
-
-# 忽略操作系统和 IDE 生成的文件
-.DS_Store
-.vscode/
 ```
 
-Gemini CLI 在读取目录时会自动查找并遵守 `.geminiignore` 和 `.gitignore` 文件中的规则，确保只将最相关、最安全的内容作为上下文提供给模型。
+**重要提示:** 如果您修改了 `.geminiignore` 文件, 您必须**重启您的 Gemini CLI 会话**才能让改动生效。
+
+Gemini CLI 在读取目录时会自动查找并遵守 `.geminiignore` 和 `.gitignore` 文件中的规则, 确保只将最相关、最安全的内容作为上下文提供给模型。
 
 通过熟练运用 `@` 引用、`GEMINI.md` 和 `.geminiignore`，您可以精确地控制提供给 AI 的上下文，从而获得更高质量、更具相关性的输出，将 Gemini CLI 的威力发挥到极致。

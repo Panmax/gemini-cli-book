@@ -14,56 +14,43 @@ This integration transforms Gemini CLI from a standalone terminal tool into a tr
 
 Once IDE integration is enabled, Gemini CLI gains the following superpowers:
 
-*   **Powerful Context-Awareness:** Gemini CLI can directly "see" what you are working on in VS Code. This includes:
-    *   **Currently Open Files:** It knows which file you are editing and can automatically use it as context, without you needing to manually reference it with `@`.
-    *   **Selected Code:** When you select a piece of code in the editor, your next query will automatically focus on that code, which is perfect for local refactoring or code explanation.
+*   **Powerful Context-Awareness:** Gemini CLI can directly "see" what you are working on in VS Code. This context includes:
+    *   The **10 most recently accessed files** in your workspace.
+    *   Your **active cursor position**.
+    *   Any **text you have selected** (up to a 16KB limit; longer selections will be truncated).
 
-*   **Native IDE Diff View:** This is one of the most powerful features. When Gemini CLI suggests a modification to a file, it no longer just prints the code in the terminal. Instead, it opens a **native, full-screen diff view** in VS Code. In this view, you can:
-    *   Clearly see the code changes in red (deletions) and green (additions).
-    *   Directly edit and revise the AI-suggested code in the diff view before approving the changes.
-    *   Accept the changes with a single click of a button or a keyboard shortcut (`Cmd+S` / `Ctrl+S`), applying the modifications to your file.
+*   **Native IDE Diff View:** This is one of the most powerful features. When Gemini CLI suggests a modification to a file, it no longer just prints the code in the terminal. Instead, it opens a **native, full-screen diff view** in VS Code, allowing you to review, edit, and accept or reject changes seamlessly.
 
-This "what you see is what you get" interaction makes the process of reviewing and approving code changes both intuitive and safe, giving you complete control.
+*   **VS Code Commands:** You can access key features directly from the VS Code Command Palette (`Cmd+Shift+P` or `Ctrl+Shift+P`), such as `Gemini CLI: Run` and `Gemini CLI: Accept Diff`.
 
 ## Installation and Activation Steps
 
-The integration process is very simple and usually only requires one or two commands.
+There are three ways to set up the IDE integration.
 
 **Prerequisites:**
 *   Please run Gemini CLI in the **Integrated Terminal** of VS Code.
-*   Ensure your Gemini CLI version is at least `0.1.20` and your VS Code version is at least `1.99.0`.
 
-### Step 1: Install the Companion Extension
+### 1. Automatic Prompt (Recommended)
+The first time you run `gemini` in the VS Code integrated terminal, it will auto-detect the environment and prompt you to install the companion extension. Answering "Yes" is the easiest way to get started.
 
-You need to install a VS Code extension called "Gemini CLI Companion." There are two ways to install it:
-
-**1. Automatic Installation (Recommended):**
-The first time you run `gemini` in the VS Code integrated terminal, it will usually auto-detect the environment and give you a prompt:
-```
-[INFO] Gemini CLI can integrate with VS Code for a better experience.
-[?] Install the companion VS Code extension to enable this? (Y/n)
-```
-Simply type `Y` and press Enter, and Gemini CLI will automatically install and configure the companion extension for you.
-
-**2. Manual Installation:**
-If for some reason you miss the automatic prompt, you can run the following command in Gemini CLI to install it manually:
+### 2. Manual Installation from the CLI
+If you miss the prompt, you can run the following command in Gemini CLI to install it manually:
 ```
 > /ide install
 ```
-Alternatively, you can search for "Gemini CLI Companion" in the VS Code Extensions Marketplace and click install.
 
-### Step 2: Enable Integration
+### 3. Manual Installation from a Marketplace
+You can also install the "Gemini CLI Companion" extension directly from a marketplace.
+- **For Visual Studio Code:** Install from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=google.gemini-cli-vscode-ide-companion).
+- **For VS Code Forks:** The extension is also published on the [Open VSX Registry](https://open-vsx.org/extension/google/gemini-cli-vscode-ide-companion).
 
-After installing the extension, integration is enabled by default. You can manually control its status with the following commands:
+**Important:** After manually installing the extension from a marketplace, you must run `/ide enable` in the CLI to activate the integration.
+
+### Enabling and Disabling the Connection
+You can manually control the connection status with the following commands:
 
 *   **/ide enable:** Enables IDE integration.
-    ```
-    > /ide enable
-    ```
 *   **/ide disable:** Temporarily disables IDE integration.
-    ```
-    > /ide disable
-    ```
 
 Once enabled, a special icon will appear next to the Gemini CLI prompt, indicating that it has successfully connected to your VS Code instance.
 
@@ -83,3 +70,27 @@ Let's see how seamless your workflow can become after enabling integration.
 7.  **Continue the Conversation:** Return to the terminal to continue with your next task.
 
 In this way, you can complete the entire "dialogue -> code -> review -> apply" loop without ever leaving your IDE, greatly enhancing your development immersion and efficiency.
+
+## Troubleshooting
+
+If you encounter issues with IDE integration, here are some common error messages and how to resolve them.
+
+### Connection Errors
+
+- **Message:** `🔴 Disconnected: Failed to connect to IDE companion extension...`
+  - **Cause:** The CLI could not connect to the IDE extension. This usually means the extension is not running or did not initialize correctly.
+  - **Solution:** Ensure you have the **Gemini CLI Companion** extension installed and enabled. Try opening a new integrated terminal window in your IDE to ensure it picks up the correct environment.
+
+- **Message:** `🔴 Disconnected: IDE connection error. The connection was lost unexpectedly...`
+  - **Cause:** The connection to the IDE companion was lost.
+  - **Solution:** Run `/ide enable` to try and reconnect. If the issue persists, open a new terminal window or restart your IDE.
+
+### Configuration Errors
+
+- **Message:** `🔴 Disconnected: Directory mismatch...`
+  - **Cause:** The CLI's current working directory is outside the workspace you have open in your IDE.
+  - **Solution:** `cd` into the same directory that is open in your IDE and restart the CLI.
+
+- **Message:** `🔴 Disconnected: To use this feature, please open a workspace folder in [IDE Name] and try again.`
+  - **Cause:** You have no workspace open in your IDE.
+  - **Solution:** Open a workspace folder in your IDE and restart the CLI.

@@ -92,28 +92,35 @@ With this file, Gemini CLI will "remember" these rules in every subsequent query
 
 ## Using `.geminiignore` to Exclude Unnecessary Files
 
-When you reference a directory, it often contains files you don't want the AI to see, such as `node_modules`, build artifacts (`dist`, `.next`), or files with sensitive information.
+When you reference a directory, it often contains files you don't want the AI to see, such as `node_modules`, build artifacts (`dist`, `.next`), or files with sensitive information. To solve this, you can create a `.geminiignore` file in your project's root directory.
 
-To solve this, you can create a `.geminiignore` file in your project's root directory. Its syntax is identical to `.gitignore`.
+Its syntax largely follows the conventions of `.gitignore` files:
+- Blank lines or lines starting with `#` are ignored.
+- Standard glob patterns like `*` are supported.
+- Ending a pattern with `/` ensures it only matches directories (e.g., `node_modules/`).
+- Starting a pattern with `/` anchors it to the project root.
+- Starting a pattern with `!` negates it, allowing you to re-include a file that was previously excluded.
 
 A typical `.geminiignore` file:
-
 ```
 # Ignore dependencies and build artifacts
-node_modules/
-dist/
-build/
+/node_modules/
+/dist/
+/build/
 .next/
 
-# Ignore log and environment variable files
+# Ignore all log files
 *.log
+
+# But do not ignore this specific log file
+!important.log
+
+# Ignore environment variable files
 .env
 .env.local
-
-# Ignore OS and IDE generated files
-.DS_Store
-.vscode/
 ```
+
+**Important:** If you make changes to your `.geminiignore` file, you must **restart your Gemini CLI session** for the changes to be applied.
 
 When reading a directory, Gemini CLI will automatically find and adhere to the rules in both `.geminiignore` and `.gitignore` files, ensuring that only the most relevant and secure content is provided as context to the model.
 

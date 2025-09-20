@@ -1,147 +1,72 @@
-# 第九章：扩展 Gemini CLI 的能力
+# 第九章：通过扩展来扩展 Gemini CLI 的能力
 
-Gemini CLI 的设计哲学是开放和可扩展的。除了强大的内置工具外，它还提供了一套先进的机制，允许您连接外部工具、服务和数据源，甚至创建完全自定义的命令。这套机制的核心就是**模型上下文协议 (Model Context Protocol, MCP)**。
+虽然 Gemini CLI 开箱即用时已经非常强大，但其真正的潜力需要通过一个现代化的、可分享的**扩展系统**来解锁。扩展允许您将提示、自定义命令、甚至复杂的 MCP 服务器打包成一种用户友好的格式，可以被轻松地安装和分享。
 
-本章将带您了解 MCP 的概念，并指导您如何通过构建一个简单的 MCP 服务器来为您自己的 Gemini CLI 添加独一無二的功能。
+本章将聚焦于这种全新的、官方推荐的扩展 Gemini CLI 的方式。
 
-## 什么是模型上下文协议 (MCP)？
+## 通过命令行管理扩展
 
-您可以将 MCP 想象成一座桥梁。它是一种标准化的协议，允许 Gemini CLI (客户端) 与外部工具提供方 (服务器) 进行通信。
+Gemini CLI 提供了一套通过 `gemini extensions` 命令使用的扩展管理工具。请注意，这些命令必须在您的系统 shell 中运行，而不是在 Gemini CLI 的交互式会话内部。
 
-通过这座桥梁，Gemini CLI 可以：
-*   **发现工具:** 询问服务器：“你有哪些可用的工具？它们的功能是什么？需要哪些参数？”
-*   **执行工具:** 请求服务器：“请帮我运行这个名为 `get_weather` 的工具，参数是 `location: "北京"`。”
-*   **获取响应:** 接收服务器返回的结构化数据（例如，天气信息）。
+### 安装扩展
+您可以使用 GitHub URL 或本地目录来安装扩展。这是为您的 CLI 添加新功能的主要方式。
+```bash
+# 从 GitHub 安装
+gemini extensions install https://github.com/google-gemini/gemini-cli-security
 
-这意味着，您可以编写一个小型的服务器应用，将您自己的脚本、公司的内部 API 或任何第三方服务，封装成 Gemini CLI 可以理解和调用的“工具”。
-
-## 通过 MCP 连接外部工具
-
-让我们通过一个实战案例来理解这个过程。我们将创建一个自定义工具 `/weather`，它能获取指定城市的实时天气。
-
-### 第一步：创建 MCP 服务器
-
-我们将使用 Node.js 和 Express 框架来创建一个简单的 MCP 服务器。这个服务器只做一件事：暴露一个 `/mcp` 端点，用于与 Gemini CLI 通信。
-
-**`mcp-weather-server.js`**
-```javascript
-const express = require('express');
-const app = express();
-const port = 3001;
-
-// 模拟一个调用天气 API 的函数
-async function fetchWeather(location) {
-  // 在真实应用中，这里会调用一个真实的天气 API
-  if (location.includes('北京')) {
-    return { temperature: '15°C', condition: '晴' };
-  }
-  return { temperature: '20°C', condition: '多云' };
-}
-
-app.use(express.json());
-
-// MCP 端点
-app.all('/mcp', async (req, res) => {
-  const body = req.body;
-
-  // 1. 工具发现 (Discovery)
-  if (body.type === 'discovery') {
-    return res.json({
-      // 声明我们提供一个名为 'weather' 的工具集
-      toolsets: [{ name: 'weather' }]
-    });
-  }
-
-  // 2. 工具描述 (Describe)
-  if (body.type === 'describe' && body.toolset === 'weather') {
-    return res.json({
-      // 描述工具集的具体工具
-      tools: [{
-        name: 'get_weather',
-        description: '获取指定城市的实时天气',
-        // 定义工具需要的参数
-        parameters: [{
-          name: 'location',
-          type: 'STRING',
-          description: '城市名称'
-        }]
-      }]
-    });
-  }
-
-  // 3. 工具执行 (Execute)
-  if (body.type === 'execute' && body.tool?.name === 'get_weather') {
-    const location = body.tool.parameters.find(p => p.name === 'location')?.value;
-    if (!location) {
-      return res.status(400).json({ error: 'Location parameter is required' });
-    }
-    const weatherData = await fetchWeather(location);
-    // 返回结构化的执行结果
-    return res.json({
-      tool: body.tool,
-      result: JSON.stringify(weatherData)
-    });
-  }
-
-  // 默认或未知请求
-  res.status(404).send('Not Found');
-});
-
-app.listen(port, () => {
-  console.log(`MCP Weather Server listening at http://localhost:${port}`);
-});
+# 从本地目录安装
+gemini extensions install --path=path/to/local/extension
 ```
-这个服务器实现了 MCP 协议的三个核心部分：发现、描述和执行。
 
-### 第二步：配置和管理 MCP 服务器
+### 其他管理命令
+- **卸载:** `gemini extensions uninstall <扩展名称>`
+- **禁用/启用:** `gemini extensions disable <扩展名称>` (也可以配合 `--scope=workspace` 仅为当前项目禁用)。
+- **更新:** `gemini extensions update <扩展名称>` 或 `gemini extensions update --all`。
 
-现在，我们需要告诉 Gemini CLI 如何找到我们的天气服务器。这通过修改 `settings.json` 配置文件来完成。
+## 扩展的工作原理
 
-1.  运行 `gemini config path` 找到您的 `settings.json` 文件并打开它。
-2.  在文件中添加 `mcpServers` 配置块：
+启动时，Gemini CLI 会在 `<home>/.gemini/extensions` 目录中寻找扩展。每个扩展都是一个文件夹，其中包含一个 `gemini-extension.json` 文件，该文件定义了扩展的行为。
 
-**`settings.json`**
+### `gemini-extension.json` 文件
+这个清单文件是扩展的核心。以下是一个示例结构：
 ```json
 {
-  // ... 其他配置 ...
+  "name": "my-extension",
+  "version": "1.0.0",
   "mcpServers": {
-    "weatherServer": {
-      "transport": "http",
-      "url": "http://localhost:3001/mcp",
-      "trusted": true
+    "my-server": {
+      "command": "node my-server.js"
     }
-  }
+  },
+  "contextFileName": "GEMINI.md",
+  "excludeTools": ["run_shell_command(rm -rf)"]
 }
 ```
-*   `weatherServer`: 这是您为服务器起的一个名字。
-*   `transport`: 通信方式，这里是 `http`。
-*   `url`: 我们服务器的地址。
-*   `trusted`: 设置为 `true` 可以让 Gemini CLI 在调用工具时跳过烦人的确认步骤，因为这是我们自己开发的、可信的工具。
+- **`name`**: 扩展的唯一名称。
+- **`version`**: 扩展的版本。
+- **`mcpServers`**: 定义并配置该扩展需要运行的任何 MCP 服务器。这是管理 MCP 服务器的现代方式，为用户抽象了其复杂性。
+- **`contextFileName`**: 扩展内部的一个文件，为模型提供上下文，类似于项目级的 `GEMINI.md`。
+- **`excludeTools`**: 允许扩展禁用某些工具以确保安全或相关性，例如，禁用 `rm -rf` 命令。
 
-### 第三步：启动服务器并使用新工具
+### 自定义命令
+扩展可以通过在 `commands/` 子目录中放置 `.toml` 文件来提供自己的自定义斜杠命令。这是捆绑可复用提示和脚本的强大方式。
 
-1.  **启动服务器:** 在终端中运行我们的服务器脚本。
-    ```bash
-    node mcp-weather-server.js
-    ```
-    您应该会看到 `MCP Weather Server listening at http://localhost:3001` 的输出。
+如果扩展中的自定义命令与用户自己的命令发生冲突，扩展的命令将被自动重命名。例如，一个扩展的 `/deploy` 命令可能会变为 `/my-extension.deploy` 以避免冲突。
 
-2.  **启动 Gemini CLI:** 在**另一个**终端中，启动 `gemini`。它会自动读取配置并连接到您的 MCP 服务器。
+## 创建您自己的扩展
 
-3.  **使用自定义工具:** 现在，您可以像使用内置工具一样，通过自然语言来调用我们自定义的天气工具了！
+Gemini CLI 让创建您自己的扩展变得非常简单。
 
-    **您的提示：**
-    ```
-    > 北京今天天气怎么样？
-    ```
+### 创建一个样板扩展
+您可以基于官方示例来生成一个新的扩展：
+```bash
+gemini extensions new path/to/your/new/extension custom-commands
+```
+该命令会创建一个新目录，其中包含一个预设好的 `gemini-extension.json` 和一个示例命令，为您提供一个完美的开发起点。
 
-    **Gemini CLI 的响应：**
-    Gemini 模型会理解您的意图，并发现您本地的 `get_weather` 工具可以满足这个需求。于是，它会自动调用这个工具。
-    ```
-    [TOOL] Calling: get_weather({ location: '北京' })
-    [TOOL] Result: {"temperature":"15°C","condition":"晴"}
-
-    北京今天的天气是晴天，温度为 15°C。
-    ```
-
-通过这个简单的例子，您已经掌握了扩展 Gemini CLI 的核心方法。您可以举一反三，创建更复杂的工具来连接您的数据库、操作您的 CI/CD 流水线、或者集成任何您能想到的 API，将 Gemini CLI 打造成一个真正属于您的、无所不能的开发中枢。
+### 为开发链接扩展
+为了简化开发流程，您可以使用 `link` 命令。它会创建一个从您的开发目录到 Gemini CLI 扩展文件夹的符号链接，这样您所做的任何更改都会立即生效，无需不断地更新或重装。
+```bash
+gemini extensions link path/to/your/dev/extension
+```
+通过利用这个扩展系统，您可以创建强大的、可复用的、可分享的工具，并将其深度集成到您特定的工作流中。

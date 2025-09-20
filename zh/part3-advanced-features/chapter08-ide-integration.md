@@ -14,56 +14,43 @@
 
 启用 IDE 集成后，Gemini CLI 将获得以下超能力：
 
-*   **强大的上下文感知:** Gemini CLI 能够直接“看到”您在 VS Code 中正在进行的工作。这包括：
-    *   **当前打开的文件:** 它知道您正在编辑哪个文件，并能自动将其作为上下文，无需您手动使用 `@` 引用。
-    *   **选中的代码:** 当您在编辑器中选中一段代码时，您的下一个问题将自动聚焦于这段代码，非常适合进行局部重构或代码解释。
+*   **强大的上下文感知:** Gemini CLI 能够直接“看到”您在 VS Code 中正在进行的工作。此上下文包括：
+    *   您工作区中**最近访问的 10 个文件**。
+    *   您当前的**光标位置**。
+    *   您**选择的任何文本**（上限为 16KB；更长的选择将被截断）。
 
-*   **IDE 原生差分 (Diff) 视图:** 这是最强大的功能之一。当 Gemini CLI 建议对某个文件进行修改时，它不再仅仅是在终端中打印出代码。相反，它会在 VS Code 中打开一个**原生的、全屏的差分比较视图**。在这个视图中，您可以：
-    *   清晰地看到红色（删除）和绿色（添加）的代码变更。
-    *   在批准变更前，直接在差分视图中对 AI 建议的代码进行二次编辑和修正。
-    *   通过点击确认按钮或使用快捷键 (`Cmd+S` / `Ctrl+S`)，一键接受变更，将修改应用到您的文件中。
+*   **IDE 原生差分 (Diff) 视图:** 这是最强大的功能之一。当 Gemini CLI 建议对某个文件进行修改时，它会直接在 VS Code 中打开一个**原生的、全屏的差分比较视图**，让您可以无缝地审查、编辑和接受或拒绝变更。
 
-这种“所见即所得”的交互方式，让代码变更的审查和批准过程既直观又安全，给予您完全的控制权。
+*   **VS Code 命令:** 您可以从 VS Code 的命令面板（`Cmd+Shift+P` 或 `Ctrl+Shift+P`）直接访问关键功能，例如 `Gemini CLI: Run` 和 `Gemini CLI: Accept Diff`。
 
 ## 安装与启用步骤
 
-集成过程非常简单，通常只需要一两个命令。
+有三种方式可以设置 IDE 集成。
 
 **前提条件:**
 *   请在 VS Code 的**集成终端** (Integrated Terminal) 中运行 Gemini CLI。
-*   确保您的 Gemini CLI 版本不低于 `0.1.20`，VS Code 版本不低于 `1.99.0`。
 
-### 步骤一：安装伴侣扩展
+### 1. 自动提示 (推荐)
+当您首次在 VS Code 的集成终端中运行 `gemini` 时，它会自动检测到环境并提示您安装伴侣扩展。回答“是”是最简单的入门方式。
 
-您需要安装一个名为 "Gemini CLI Companion" 的 VS Code 扩展。您有两种方式来安装它：
-
-**1. 自动安装 (推荐):**
-当您首次在 VS Code 的集成终端中运行 `gemini` 时，它通常会自动检测到环境，并给您一个提示：
-```
-[INFO] Gemini CLI can integrate with VS Code for a better experience.
-[?] Install the companion VS Code extension to enable this? (Y/n)
-```
-只需输入 `Y` 并回车，Gemini CLI 就会自动为您安装和配置好伴侣扩展。
-
-**2. 手动安装:**
-如果由于某种原因您错过了自动提示，可以在 Gemini CLI 中运行以下命令来手动安装：
+### 2. 从 CLI 手动安装
+如果您错过了提示，可以在 Gemini CLI 中运行以下命令来手动安装：
 ```
 > /ide install
 ```
-或者，您也可以直接在 VS Code 的扩展市场中搜索 "Gemini CLI Companion" 并点击安装。
 
-### 步骤二：启用集成
+### 3. 从应用市场手动安装
+您也可以直接从应用市场安装“Gemini CLI Companion”扩展。
+- **对于 Visual Studio Code:** 从 [VS Code 应用市场](https://marketplace.visualstudio.com/items?itemName=google.gemini-cli-vscode-ide-companion) 安装。
+- **对于 VS Code 的其他分支版本:** 该扩展也发布在 [Open VSX Registry](https://open-vsx.org/extension/google.gemini-cli-vscode-ide-companion) 上。
 
-安装完扩展后，集成默认是开启的。您可以通过以下命令来手动控制它的状态：
+**重要提示:** 从应用市场手动安装扩展后，您必须在 CLI 中运行 `/ide enable` 来激活集成。
+
+### 启用与禁用连接
+您可以通过以下命令来手动控制连接状态：
 
 *   **/ide enable:** 启用 IDE 集成。
-    ```
-    > /ide enable
-    ```
 *   **/ide disable:** 暂时禁用 IDE 集成。
-    ```
-    > /ide disable
-    ```
 
 一旦启用，Gemini CLI 的提示符旁边会出现一个特殊的图标，表示它已成功连接到您的 VS Code 实例。
 
@@ -83,3 +70,27 @@
 7.  **继续对话:** 回到终端，继续您的下一个任务。
 
 通过这种方式，您可以在不离开 IDE 的情况下，完成“对话 -> 编码 -> 审查 -> 应用”的完整闭环，极大地提升了开发的沉浸感和效率。
+
+## 问题排查
+
+如果您在 IDE 集成方面遇到问题，以下是一些常见的错误信息及其解决方法。
+
+### 连接错误
+
+- **错误信息:** `🔴 Disconnected: Failed to connect to IDE companion extension...` (连接失败)
+  - **原因:** CLI 无法连接到 IDE 扩展。这通常意味着扩展没有运行或未能正确初始化。
+  - **解决方法:** 确保您已经安装并启用了 **Gemini CLI Companion** 扩展。尝试在您的 IDE 中打开一个新的集成终端窗口，以确保它能加载正确的环境。
+
+- **错误信息:** `🔴 Disconnected: IDE connection error. The connection was lost unexpectedly...` (连接意外丢失)
+  - **原因:** 与 IDE 伴侣扩展的连接中断了。
+  - **解决方法:** 运行 `/ide enable` 尝试重新连接。如果问题仍然存在，请打开一个新的终端窗口或重启您的 IDE。
+
+### 配置错误
+
+- **错误信息:** `🔴 Disconnected: Directory mismatch...` (目录不匹配)
+  - **原因:** CLI 的当前工作目录与您在 IDE 中打开的工作区目录不一致。
+  - **解决方法:** `cd` 到与 IDE 中打开的目录相同的目录，然后重启 CLI。
+
+- **错误信息:** `🔴 Disconnected: To use this feature, please open a workspace folder in [IDE Name] and try again.` (请打开一个工作区文件夹)
+  - **原因:** 您没有在 IDE 中打开任何工作区。
+  - **解决方法:** 在您的 IDE 中打开一个工作区文件夹，然后重启 CLI。
