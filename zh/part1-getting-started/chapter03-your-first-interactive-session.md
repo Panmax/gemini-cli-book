@@ -108,6 +108,7 @@ server.listen(port, hostname, () => {
 });
 ```
 
+```
 [INFO] The model has suggested a file change.
 [?] Do you want to apply this change to server.js? (Y/n)
 ```
