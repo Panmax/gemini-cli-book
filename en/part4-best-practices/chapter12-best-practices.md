@@ -63,3 +63,36 @@ The powerful capabilities of AI also come with new security responsibilities. Be
 *   **Review Shell Commands:** For shell commands (`!`) suggested by the AI, always review them carefully before confirming. Understand the meaning and potential impact of the command, especially when using `Ctrl+Y` (YOLO mode).
 
 By following these best practices, you will be able to use Gemini CLI more safely and efficiently, turning it into a truly sharp Swiss Army knife in your development toolkit.
+
+## Troubleshooting Common Issues
+
+Even with the best practices, you might occasionally run into issues. Here are solutions to some common problems.
+
+### Authentication and Login Errors
+- **Error: `Failed to login... Request contains an invalid argument`**
+  - **Cause:** This can happen with Google Workspace or Cloud accounts.
+  - **Solution:** For Cloud accounts, try setting the `GOOGLE_CLOUD_PROJECT` environment variable to your project ID. Alternatively, get a free-tier Gemini API key from [Google AI Studio](http://aistudio.google.com/app/apikey) and configure it using `gemini config set`.
+
+- **Error: `UNABLE_TO_GET_ISSUER_CERT_LOCALLY`**
+  - **Cause:** You are likely on a corporate network with a firewall that inspects SSL/TLS traffic.
+  - **Solution:** Set the `NODE_EXTRA_CA_CERTS` environment variable to the absolute path of your company's root CA certificate file.
+
+### Frequently Asked Questions
+- **How do I update to the latest version?**
+  - Run `npm install -g @google/gemini-cli@latest`.
+
+- **Why don't I see cached token counts in `/stats`?**
+  - This feature is only available for users authenticating with an API key (from Gemini API or Google Cloud Vertex AI), not for users logging in with their personal Google accounts (OAuth).
+
+### Common Error Messages
+- **`EADDRINUSE` (Address already in use) when starting an MCP server.**
+  - **Cause:** Another process is using the port your MCP server needs.
+  - **Solution:** Stop the other process or configure your MCP server to use a different port.
+
+- **`Command not found` after installation.**
+  - **Cause:** Your system's `PATH` does not include the `npm` global binary directory.
+  - **Solution:** Ensure your `npm` global path is correctly configured in your shell's startup file (e.g., `.zshrc`, `.bash_profile`).
+
+- **`"Operation not permitted"` or `"Permission denied"`**
+  - **Cause:** The sandbox is preventing the AI from performing an action outside its allowed scope (e.g., writing to a file outside the project directory).
+  - **Solution:** This is expected behavior. If the action is necessary, you may need to adjust your sandbox configuration, but be aware of the security implications.

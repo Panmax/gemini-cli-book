@@ -63,3 +63,36 @@ AI 的强大能力也伴随着新的安全责任。请务必牢记以下几点�
 *   **审查 Shell 命令:** 对于 AI 建议执行的 shell 命令 (`!`)，一定要在确认前仔细审查，理解该命令的含义和潜在影响，尤其是在使用 `Ctrl+Y` (YOLO 模式) 时。
 
 遵循这些最佳实践，您将能够更安全、更高效地利用 Gemini CLI，使其成为您开发工具箱中一把真正锋利的瑞士军刀。
+
+## 常见问题与排查思路
+
+即使遵循了最佳实践，您偶尔也可能遇到一些问题。以下是一些常见问题的解决方法。
+
+### 认证与登录错误
+- **错误: `Failed to login... Request contains an invalid argument` (登录失败...请求包含无效参数)**
+  - **原因:** 这可能发生在 Google Workspace 或 Cloud 账户上。
+  - **解决方法:** 对于 Cloud 账户，尝试设置 `GOOGLE_CLOUD_PROJECT` 环境变量为您的项目 ID。或者，从 [Google AI Studio](http://aistudio.google.com/app/apikey) 获取一个免费套餐的 Gemini API 密钥，并使用 `gemini config set` 进行配置。
+
+- **错误: `UNABLE_TO_GET_ISSUER_CERT_LOCALLY` (无法获取本地颁发者证书)**
+  - **原因:** 您很可能处于一个有防火墙拦截 SSL/TLS 流量的公司网络中。
+  - **解决方法:** 设置 `NODE_EXTRA_CA_CERTS` 环境变量，使其指向您公司的根 CA 证书文件的绝对路径。
+
+### 常见问题解答
+- **如何更新到最新版本？**
+  - 运行 `npm install -g @google/gemini-cli@latest`。
+
+- **为什么我在 `/stats` 中看不到缓存的 token 数量？**
+  - 此功能仅适用于通过 API 密钥（来自 Gemini API 或 Google Cloud Vertex AI）进行身份验证的用户，不适用于通过个人 Google 账户（OAuth）登录的用户。
+
+### 常见错误信息
+- **启动 MCP 服务器时出现 `EADDRINUSE` (地址已被占用)**
+  - **原因:** 另一个进程正在使用您的 MCP 服务器需要的端口。
+  - **解决方法:** 停止占用该端口的其他进程，或者将您的 MCP 服务器配置为使用其他端口。
+
+- **安装后提示 `Command not found` (命令未找到)**
+  - **原因:** 您的系统 `PATH` 环境变量不包含 `npm` 的全局二进制文件目录。
+  - **解决方法:** 确保在您的 shell 启动文件（如 `.zshrc`, `.bash_profile`）中正确配置了 `npm` 的全局路径。
+
+- **`"Operation not permitted"` (操作不允许) 或 `"Permission denied"` (权限被拒绝)**
+  - **原因:** 沙盒功能正在阻止 AI 执行超出其允许范围的操作（例如，向项目目录之外的文件写入）。
+  - **解决方法:** 这是预期的安全行为。如果该操作是必需的，您可能需要调整您的沙盒配置，但请注意相关的安全风险。

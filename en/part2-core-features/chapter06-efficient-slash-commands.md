@@ -28,24 +28,41 @@ These are the commands you will interact with most frequently in your daily use.
     > /tools
     ```
 
-## Session Management
+## Session and State Management
 
-Session management commands allow you to save and resume entire conversations, which is extremely useful for handling complex problems that require long, multi-step solutions.
+Gemini CLI provides powerful commands to manage not just your conversation history, but also the state of your project files, giving you a safety net for AI-driven modifications.
 
-*   **/save [filename]:** Saves the complete history of the current session to a JSON file. If you don't provide a filename, one will be generated automatically.
+### Saving and Resuming Conversations (`/save` & `/resume`)
+
+These commands allow you to manually save and load the entire history of a conversation. This is extremely useful for handling complex problems that require long, multi-step solutions.
+
+*   **/save [filename]:** Saves the complete history of the current session to a JSON file.
     ```
     > /save my_debug_session
     ```
-    After execution, a `my_debug_session.json` file will be created, containing your entire conversation with the AI.
-
-*   **/resume <filename>:** Loads a session history from a previously saved JSON file. This will restore you to the state you were in when you saved, including all conversational context.
+*   **/resume <filename>:** Loads a session history from a previously saved JSON file, restoring the full conversational context.
     ```
     > /resume my_debug_session.json
     ```
-    This feature is ideal for:
-    *   **Pausing and Resuming:** When you need to temporarily interrupt a complex task, you can `/save` first and then seamlessly pick up where you left off with `/resume`.
-    *   **Templating Workflows:** You can create a template session with initial instructions for common tasks (like "code review" or "generate tests") and quickly start it with `/resume`.
-    *   **Sharing and Collaboration:** You can share the saved session file with colleagues, allowing them to fully review your thought process and the steps you took to solve a problem.
+    This feature is ideal for pausing and resuming complex tasks, creating reusable workflow templates, or sharing your process with colleagues.
+
+### Undoing File Changes (`/restore`)
+
+This is a powerful safety feature that automatically saves a snapshot of your project's state **before** any AI-powered tool modifies your files. This allows you to safely experiment with code changes, knowing you can instantly revert them.
+
+**Note:** This feature is disabled by default. You must enable it by starting the CLI with the `--checkpointing` flag or by setting `"checkpointing": { "enabled": true }` in your `settings.json` file.
+
+Once enabled, a "checkpoint" is automatically created whenever you approve a tool that modifies the file system (like `write_file`). This checkpoint includes a snapshot of your project files and the conversation history.
+
+*   **/restore:** When run without arguments, it lists all available checkpoints for the current project.
+    ```
+    > /restore
+    ```
+*   **/restore <checkpoint_file>:** Reverts all files in your project to the state captured in the specified checkpoint and restores the conversation history up to that point.
+    ```
+    > /restore 2025-06-22T10-00-00_000Z-my-file.txt-write_file
+    ```
+This gives you the confidence to let the AI perform complex file operations, as you can always undo the changes with a single command.
 
 ## Context Management
 

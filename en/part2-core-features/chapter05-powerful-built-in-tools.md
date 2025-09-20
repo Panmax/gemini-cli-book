@@ -105,3 +105,29 @@ The model will call the `google_web_search` tool to search for "React Zustand tu
 The model will use the `google_web_search` tool to search for this specific error message. Based on the search results (likely from Stack Overflow or GitHub Issues), it will analyze that this is typically caused by a local Redis service not running and will suggest the command to start the Redis service.
 
 By combining its language capabilities with these powerful built-in tools, Gemini CLI transforms from a simple "chatbot" into an "intelligent agent" that can perceive its environment, perform actions, and acquire new knowledge, truly becoming a powerful assistant in your development workflow.
+
+## Using Gemini CLI in Scripts and Automation (Headless Mode)
+
+Beyond its interactive shell, Gemini CLI is also a powerful tool for automation. By using **headless mode**, you can integrate its AI capabilities directly into your scripts, CI/CD pipelines, and other automated workflows.
+
+### How It Works
+Headless mode runs the CLI non-interactively. Instead of a chat interface, it accepts a prompt directly, processes it, and prints the result to standard output before exiting. This makes it perfect for programmatic use.
+
+You can provide input in two main ways:
+1.  **Via the `--prompt` (or `-p`) flag:**
+    ```bash
+    gemini --prompt "Write a concise git commit message for the latest changes" --output-format json
+    ```
+2.  **Via standard input (stdin):** This allows you to pipe content from other commands directly into Gemini CLI.
+    ```bash
+    git diff --cached | gemini -p "Write a conventional commit message for these changes"
+    ```
+
+### Getting Structured Output
+For automation, receiving a predictable, structured output is crucial. You can use the `--output-format json` flag to get a detailed JSON object as a response. This object includes not only the AI's textual response but also valuable metadata and statistics about model and tool usage.
+
+```bash
+# Get the response as JSON and use `jq` to extract just the text
+gemini -p "What is the capital of France?" --output-format json | jq '.response'
+```
+This combination of headless mode and structured JSON output unlocks endless possibilities for building AI-powered automations right from your command line.
