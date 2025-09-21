@@ -101,37 +101,27 @@ Once enabled, a "checkpoint" is automatically created whenever you approve a too
 *   **/restore:** When run without arguments, it lists all available checkpoints for the current project.
 *   **/restore <checkpoint_file>:** Reverts all files in your project to the state captured in the specified checkpoint and restores the conversation history up to that point.
 
-## Context Management
+## Context Management (`/memory` commands)
 
-Effective context management is key to collaborating efficiently with the AI. The following commands allow you to precisely view and control the context information being provided to the model.
+Effectively managing context is key to collaborating efficiently with the AI. The `/memory` command and its sub-commands allow you to precisely view and control the context information.
 
-*   **/show:** This is a very useful debugging command. It displays the full context that will be sent to the model on your **next** prompt submission. This includes:
-    *   System instructions (e.g., from `GEMINI.md`)
-    *   Content of files referenced with the `@` symbol
-    *   Previous conversation history
+*   **/memory show:** This is a very useful debugging command. It displays the full context that will be sent to the model on your **next** prompt submission. This includes system instructions (from `GEMINI.md`), file content, and conversation history.
     ```
     > @package.json
-    > /show
+    > /memory show
     ```
-    After running `/show`, you will clearly see that the content of `package.json` has been loaded and is ready to be used as context for the next request. This helps you confirm whether the AI is "seeing" the information you want it to see.
+    This helps you confirm whether the AI is "seeing" the information you want it to see.
 
-*   **/reload:** Reloads the system instructions from the `GEMINI.md` file. This command is very useful when you have modified `GEMINI.md` during a session and want the changes to take effect immediately without restarting the entire session.
+*   **/memory refresh:** Reloads the system instructions from all `GEMINI.md` files. This is very useful when you have modified a context file during a session and want the changes to take effect immediately without restarting.
     ```
-    > /reload
+    > /memory refresh
     ```
 
 ## Other Useful Commands
 
-*   **/theme:** Allows you to quickly switch or customize the interface's color theme.
+*   **/theme:** Opens an interactive menu that allows you to select or customize the interface's color theme.
     ```
-    > /theme dark
-    > /theme light
-    > /theme custom blue purple
-    ```
-
-*   **/feedback:** Provides a quick channel to send any issues or suggestions you encounter directly to the Gemini CLI development team.
-    ```
-    > /feedback I hope a future version will add xxx feature.
+    > /theme
     ```
 
 *   **/quit** or **/exit:** Exits the Gemini CLI interactive session. You can also use the shortcut `Ctrl+D`.
