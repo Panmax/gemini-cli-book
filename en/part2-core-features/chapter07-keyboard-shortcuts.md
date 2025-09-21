@@ -2,42 +2,103 @@
 
 So far, we have explored most of the core features of Gemini CLI. However, to truly become an efficient user, mastering keyboard shortcuts and some advanced techniques is essential. This chapter will introduce a series of methods that can significantly improve your workflow efficiency.
 
-## Comprehensive Keyboard Shortcuts
+## Verified Keyboard Shortcuts
 
-Gemini CLI has many convenient built-in shortcuts for its interactive session. Mastering them will significantly speed up your workflow. They can be grouped into the following categories:
+Gemini CLI has many convenient built-in shortcuts. Here is a comprehensive list, verified against the official documentation, to help you edit, submit, and manage your sessions more quickly.
 
-### General Shortcuts
-- **`Esc`**: Cancels an in-progress generation or closes dialogs and suggestions.
-- **`Ctrl+C`**: Cancels the ongoing request. Pressing it twice exits the application.
-- **`Ctrl+D`**: Exits the application if the input is empty.
-- **`Ctrl+L`**: Clears the screen.
-- **`Ctrl+O`**: Toggles the display of the debug console.
-- **`Ctrl+S`**: Disables response truncation, allowing long responses to print fully.
-- **`Ctrl+T`**: Toggles the display of tool descriptions.
-- **`Ctrl+Y`**: Toggles auto-approval (YOLO mode) for all tool calls. **Use with caution.**
-- **`Ctrl+G`**: (IDE Integration) See the context the CLI received from the IDE.
+<br>
 
-### Input & Editing Shortcuts
-- **`Up/Down Arrow`**: Navigates through your input history.
-- **`Ctrl+X`** or **`Meta+Enter`**: Opens the current input in your default system editor (e.g., vim, nano).
-- **`Ctrl+V`**: Pastes clipboard content. If the clipboard contains an image, it will be saved and a reference will be inserted in the prompt.
-- **`Ctrl+A`** or **`Home`**: Moves the cursor to the beginning of the line.
-- **`Ctrl+E`** or **`End`**: Moves the cursor to the end of the line.
-- **`Ctrl+F`** or **`Right Arrow`**: Moves the cursor one character forward.
-- **`Ctrl+B`** or **`Left Arrow`**: Moves the cursor one character backward.
-- **`Ctrl+Right Arrow`**: Moves the cursor one word forward.
-- **`Ctrl+Left Arrow`**: Moves the cursor one word backward.
-- **`Ctrl+W`** or **`Ctrl+Backspace`**: Deletes the word before the cursor.
-- **`Ctrl+Delete`**: Deletes the word after the cursor.
-- **`Ctrl+U`**: Deletes the entire line before the cursor.
-- **`Ctrl+K`**: Deletes the entire line after the cursor.
-
-### Selection & Navigation Shortcuts
-- **(In Suggestions)** **`Tab`** or **`Enter`**: Accepts the selected suggestion.
-- **(In Suggestions)** **`Up/Down Arrow`**: Navigates through suggestions.
-- **(In Radio Buttons)** **`Up/Down Arrow`** or **`k`/`j`**: Moves selection up/down.
-- **(In Radio Buttons)** **`Enter`**: Confirms selection.
-- **(In Radio Buttons)** **`1-9`**: Selects an item by its number.
+<table style="width:100%">
+  <thead>
+    <tr>
+      <th style="width: 30%;">Shortcut</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td colspan="2" style="text-align: center; background-color: #2d2d2d;"><strong>General</strong></td>
+    </tr>
+    <tr>
+      <td><strong><code>Esc</code></strong></td>
+      <td>Cancel an in-progress generation or close dialogs.</td>
+    </tr>
+    <tr>
+      <td><strong><code>Ctrl+C</code></strong></td>
+      <td>Cancel the current request. Press twice to exit.</td>
+    </tr>
+    <tr>
+      <td><strong><code>Ctrl+D</code></strong></td>
+      <td>Exit the application (if input is empty).</td>
+    </tr>
+    <tr>
+      <td><strong><code>Ctrl+L</code></strong></td>
+      <td>Clear the screen.</td>
+    </tr>
+    <tr>
+      <td><strong><code>Ctrl+Y</code></strong></td>
+      <td>Toggle YOLO (You Only Live Once) mode, which auto-approves tool calls.</td>
+    </tr>
+    <tr>
+      <td><strong><code>Ctrl+G</code></strong></td>
+      <td>(IDE Integration) See context received from the IDE.</td>
+    </tr>
+    <tr>
+      <td colspan="2" style="text-align: center; background-color: #2d2d2d;"><strong>Input Prompt Editing</strong></td>
+    </tr>
+    <tr>
+      <td><strong><code>Ctrl+X</code></strong> / <strong><code>Meta+Enter</code></strong></td>
+      <td>Open the current prompt in an external editor.</td>
+    </tr>
+    <tr>
+      <td><strong><code>Ctrl+V</code></strong></td>
+      <td>Paste clipboard content.</td>
+    </tr>
+    <tr>
+      <td><strong><code>Ctrl+A</code></strong> / <strong><code>Home</code></strong></td>
+      <td>Move cursor to the beginning of the line.</td>
+    </tr>
+    <tr>
+      <td><strong><code>Ctrl+E</code></strong> / <strong><code>End</code></strong></td>
+      <td>Move cursor to the end of the line.</td>
+    </tr>
+    <tr>
+      <td><strong><code>Ctrl+Left/Right Arrow</code></strong></td>
+      <td>Move cursor one word backward/forward.</td>
+    </tr>
+    <tr>
+      <td><strong><code>Ctrl+W</code></strong> / <strong><code>Ctrl+Backspace</code></strong></td>
+      <td>Delete the word before the cursor.</td>
+    </tr>
+    <tr>
+      <td><strong><code>Ctrl+U</code></strong></td>
+      <td>Delete from the cursor to the beginning of the line.</td>
+    </tr>
+    <tr>
+      <td><strong><code>Ctrl+K</code></strong></td>
+      <td>Delete from the cursor to the end of the line.</td>
+    </tr>
+    <tr>
+      <td colspan="2" style="text-align: center; background-color: #2d2d2d;"><strong>Navigation & Selection</strong></td>
+    </tr>
+    <tr>
+      <td><strong><code>Up/Down Arrow</code></strong></td>
+      <td>Navigate through prompt history, suggestions, or selection lists.</td>
+    </tr>
+    <tr>
+      <td><strong><code>Tab</code></strong> / <strong><code>Enter</code></strong></td>
+      <td>Accept a selected suggestion.</td>
+    </tr>
+    <tr>
+      <td><strong><code>j</code></strong> / <strong><code>k</code></strong></td>
+      <td>(In selection lists) Move selection down/up.</td>
+    </tr>
+    <tr>
+      <td><strong><code>1-9</code></strong></td>
+      <td>(In selection lists) Select an item by its number.</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Resolving Shortcut Conflicts
 

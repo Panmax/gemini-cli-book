@@ -2,42 +2,103 @@
 
 到目前为止，我们已经探索了 Gemini CLI 的大部分核心功能。然而，要真正成为一名高效的使用者，掌握键盘快捷键和一些高级技巧是必不可少的。本章将为您介绍一系列能显著提升您工作效率的方法。
 
-## 完整键盘快捷键列表
+## 经验证的键盘快捷键
 
-Gemini CLI 在交互式会话中内置了许多方便的快捷键。掌握它们将显著提升您的工作效率。这些快捷键可分为以下几类：
+Gemini CLI 内置了许多方便的快捷键。这里是一份根据官方文档验证过的完整列表，以帮助您更快地编辑、提交和管理会话。
 
-### 通用快捷键
-- **`Esc`**: 取消正在进行的模型生成，或关闭对话框与建议。
-- **`Ctrl+C`**: 取消当前正在进行的操作。连续按两次可退出程序。
-- **`Ctrl+D`**: 在输入框为空时退出程序。
-- **`Ctrl+L`**: 清屏。
-- **`Ctrl+O`**: 切换显示/隐藏调试控制台。
-- **`Ctrl+S`**: 禁用响应截断，允许超长响应完整打印。
-- **`Ctrl+T`**: 切换显示/隐藏工具描述。
-- **`Ctrl+Y`**: 切换对所有工具调用的自动批准（YOLO 模式）。**请谨慎使用。**
-- **`Ctrl+G`**: (IDE 集成) 查看 CLI 从 IDE 接收到的上下文信息。
+<br>
 
-### 输入与编辑快捷键
-- **`上/下箭头`**: 在您的输入历史记录中导航。
-- **`Ctrl+X`** 或 **`Meta+Enter`**: 在您的系统默认编辑器中（如 vim, nano）打开当前输入内容。
-- **`Ctrl+V`**: 粘贴剪贴板内容。如果剪贴板中是图片，它将被保存并将引用插入到提示中。
-- **`Ctrl+A`** 或 **`Home`**: 将光标移动到行首。
-- **`Ctrl+E`** 或 **`End`**: 将光标移动到行尾。
-- **`Ctrl+F`** 或 **`右箭头`**: 光标前进一个字符。
-- **`Ctrl+B`** 或 **`左箭头`**: 光标后退一个字符。
-- **`Ctrl+右箭头`**: 光标前进一个单词。
-- **`Ctrl+左箭头`**: 光标后退一个单词。
-- **`Ctrl+W`** 或 **`Ctrl+Backspace`**: 删除光标前的一个单词。
-- **`Ctrl+Delete`**: 删除光标后的一个单词。
-- **`Ctrl+U`**: 删除光标前的所有内容。
-- **`Ctrl+K`**: 删除光标后的所有内容。
-
-### 选择与导航快捷键
-- **(建议中)** **`Tab`** 或 **`Enter`**: 接受选中的建议。
-- **(建议中)** **`上/下箭头`**: 在建议中上下导航。
-- **(单选按钮中)** **`上/下箭头`** 或 **`k`/`j`**: 上下移动选项。
-- **(单选按钮中)** **`Enter`**: 确认选择。
-- **(单选按钮中)** **`1-9`**: 通过数字选择对应的项目。
+<table style="width:100%">
+  <thead>
+    <tr>
+      <th style="width: 30%;">快捷键</th>
+      <th>功能描述</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td colspan="2" style="text-align: center; background-color: #2d2d2d;"><strong>通用</strong></td>
+    </tr>
+    <tr>
+      <td><strong><code>Esc</code></strong></td>
+      <td>取消正在进行的模型生成或关闭对话框。</td>
+    </tr>
+    <tr>
+      <td><strong><code>Ctrl+C</code></strong></td>
+      <td>取消当前请求。连续按两次可退出程序。</td>
+    </tr>
+    <tr>
+      <td><strong><code>Ctrl+D</code></strong></td>
+      <td>退出程序 (如果输入框为空)。</td>
+    </tr>
+    <tr>
+      <td><strong><code>Ctrl+L</code></strong></td>
+      <td>清屏。</td>
+    </tr>
+    <tr>
+      <td><strong><code>Ctrl+Y</code></strong></td>
+      <td>切换 YOLO (You Only Live Once) 模式，该模式会自动批准工具调用。</td>
+    </tr>
+    <tr>
+      <td><strong><code>Ctrl+G</code></strong></td>
+      <td>(IDE 集成) 查看从 IDE 接收到的上下文。</td>
+    </tr>
+    <tr>
+      <td colspan="2" style="text-align: center; background-color: #2d2d2d;"><strong>输入与编辑</strong></td>
+    </tr>
+    <tr>
+      <td><strong><code>Ctrl+X</code></strong> / <strong><code>Meta+Enter</code></strong></td>
+      <td>在外部编辑器中打开当前提示。</td>
+    </tr>
+    <tr>
+      <td><strong><code>Ctrl+V</code></strong></td>
+      <td>粘贴剪贴板内容。</td>
+    </tr>
+    <tr>
+      <td><strong><code>Ctrl+A</code></strong> / <strong><code>Home</code></strong></td>
+      <td>将光标移动到行首。</td>
+    </tr>
+    <tr>
+      <td><strong><code>Ctrl+E</code></strong> / <strong><code>End</code></strong></td>
+      <td>将光标移动到行尾。</td>
+    </tr>
+    <tr>
+      <td><strong><code>Ctrl+左/右箭头</code></strong></td>
+      <td>光标向前/后移动一个单词。</td>
+    </tr>
+    <tr>
+      <td><strong><code>Ctrl+W</code></strong> / <strong><code>Ctrl+Backspace</code></strong></td>
+      <td>删除光标前的一个单词。</td>
+    </tr>
+    <tr>
+      <td><strong><code>Ctrl+U</code></strong></td>
+      <td>删除从光标到行首的所有内容。</td>
+    </tr>
+    <tr>
+      <td><strong><code>Ctrl+K</code></strong></td>
+      <td>删除从光标到行尾的所有内容。</td>
+    </tr>
+    <tr>
+      <td colspan="2" style="text-align: center; background-color: #2d2d2d;"><strong>导航与选择</strong></td>
+    </tr>
+    <tr>
+      <td><strong><code>上/下箭头</code></strong></td>
+      <td>在提示历史、建议或选择列表中上下导航。</td>
+    </tr>
+    <tr>
+      <td><strong><code>Tab</code></strong> / <strong><code>Enter</code></strong></td>
+      <td>接受一个选中的建议。</td>
+    </tr>
+    <tr>
+      <td><strong><code>j</code></strong> / <strong><code>k</code></strong></td>
+      <td>(在选择列表中) 向下/上移动选项。</td>
+    </tr>
+    <tr>
+      <td><strong><code>1-9</code></strong></td>
+      <td>(在选择列表中) 通过数字选择对应的项目。</td>
+    </tr>
+  </tbody>
+</table>
 
 ## 解决快捷键冲突
 
