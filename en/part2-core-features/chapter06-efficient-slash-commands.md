@@ -54,6 +54,33 @@ The modern Gemini CLI uses a tag-based system to save and restore chat sessions.
     ```
 This tag-based system is ideal for pausing and resuming complex tasks or creating reusable workflow templates without cluttering your file system.
 
+#### Practical Example: Creating a Reusable Workflow Template
+Let's say you frequently need to generate Jest unit tests for your JavaScript functions. You can create a template for this task.
+
+**Step 1: Create the Template Session**
+Start a new `gemini` session and provide your initial instructions that define the task and the role of the AI.
+```
+> You are a testing expert specializing in Jest. I will provide you with a JavaScript function by referencing a file. Your task is to generate a complete Jest unit test file for it. The test should cover the main use case and at least one edge case. Please wait for me to provide the file.
+```
+
+**Step 2: Save the Template**
+Now, save this initial context with a memorable tag.
+```
+> /chat save jest-template
+```
+The template is now saved. You can exit the session.
+
+**Step 3: Use the Template**
+Later, when you need to write a test for a new function, you can simply resume the template.
+```
+> /chat resume jest-template
+```
+The CLI will restore your initial instructions. Now, all you need to do is provide the specific file for the task at hand.
+```
+> Okay, here is the function: @src/utils/calculator.js
+```
+Gemini CLI will then proceed to generate a Jest test for `calculator.js`, perfectly following the rules you defined in your template.
+
 ### Undoing File Changes (`/restore`)
 
 This is a powerful safety feature that automatically saves a snapshot of your project's state **before** any AI-powered tool modifies your files. This allows you to safely experiment with code changes, knowing you can instantly revert them.
