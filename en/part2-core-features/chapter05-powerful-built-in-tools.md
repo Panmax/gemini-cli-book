@@ -8,13 +8,13 @@ The model intelligently decides whether and how to use these tools based on your
 
 File system tools give Gemini CLI the ability to read and write local files directly. This means the AI can view file content, create new files, or modify existing ones, just like you can.
 
-In previous chapters, when we asked the AI to generate `server.js` and save it, it was actually calling the `write-file` tool in the background.
+In previous chapters, when we asked the AI to generate `server.js` and save it, it was actually calling the `WriteFile` tool in the background.
 
 ### Common File Tools
 
-*   `read_file`: Reads the content of a specified file.
-*   `write_file`: Writes content to a specified file (overwriting it if it already exists).
-*   `list_directory`: Lists the files and subdirectories within a specified directory.
+*   `ReadFile`: Reads the content of a specified file.
+*   `WriteFile`: Writes content to a specified file (overwriting it if it already exists).
+*   `ReadFolder`: Lists the files and subdirectories within a specified directory.
 
 ### Practical Example: Code Refactoring
 
@@ -31,11 +31,11 @@ Imagine you have a very long function that you want to split into multiple files
 **Gemini CLI's Execution Process:**
 
 1.  **Intelligent Planning:** Upon receiving the instruction, the model analyzes it as a multi-step file operation task.
-2.  **Call `read_file`:** First, it calls the `read_file` tool to read the full content of `src/utils.js` to ensure it understands the functions to be moved.
-3.  **Call `write_file`:** Next, it calls the `write_file` tool twice:
+2.  **Call `ReadFile`:** First, it calls the `ReadFile` tool to read the full content of `src/utils.js` to ensure it understands the functions to be moved.
+3.  **Call `WriteFile`:** Next, it calls the `WriteFile` tool twice:
     *   First, to create `src/network.js` and write the `networkRequest` function's code into it.
     *   Second, to create `src/data.js` and write the `dataProcessing` function's code into it.
-4.  **Call `write_file` again:** Finally, it calls `write_file` once more to update `src/utils.js`, removing the two functions that were extracted.
+4.  **Call `WriteFile` again:** Finally, it calls `WriteFile` once more to update `src/utils.js`, removing the two functions that were extracted.
 5.  **User Confirmation:** Before each critical file-writing operation, Gemini CLI will ask for your confirmation, ensuring that everything remains under your control.
 
 In this way, Gemini CLI breaks down a complex refactoring task into a series of atomic calls to file system tools, automating the process while ensuring safety.
@@ -63,7 +63,7 @@ Now, pass this file as context to Gemini CLI.
 
 **Gemini CLI's Process:**
 
-1.  **Read File:** The CLI will read the content of `changes.diff` using its built-in `read_file` tool.
+1.  **Read File:** The CLI will read the content of `changes.diff` using its built-in `ReadFile` tool.
 2.  **Analyze and Generate:** The model will analyze the code changes provided in the diff and generate a high-quality commit message that accurately describes the changes.
 3.  **Clean Up:** You can then delete the temporary `changes.diff` file.
 
@@ -73,8 +73,8 @@ This approach is both powerful and secure. It allows you to leverage the full an
 
 Modern development is inseparable from accessing vast amounts of online information. Gemini CLI has built-in web fetching tools, giving it the ability to access the internet in real-time.
 
-*   `web_fetch`: Fetches content from one or more URLs.
-*   `google_web_search`: Performs a Google search and returns the results.
+*   `WebFetch`: Fetches content from one or more URLs.
+*   `GoogleSearch`: Performs a Google search and returns the results.
 
 ### Practical Examples
 

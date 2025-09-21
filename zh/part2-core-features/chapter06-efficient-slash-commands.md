@@ -23,7 +23,7 @@
     > /stats
     ```
 
-*   **/tools:** 列出当前会话中所有可用的内置工具，例如 `read_file`, `google_web_search` 等。
+*   **/tools:** 列出当前会话中所有可用的内置工具，例如 `ReadFile`, `GoogleSearch` 等。
     ```
     > /tools
     ```

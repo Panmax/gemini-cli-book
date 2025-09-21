@@ -23,7 +23,7 @@ These are the commands you will interact with most frequently in your daily use.
     > /stats
     ```
 
-*   **/tools:** Lists all the built-in tools available in the current session, such as `read_file`, `google_web_search`, etc.
+*   **/tools:** Lists all the built-in tools available in the current session, such as `ReadFile`, `GoogleSearch`, etc.
     ```
     > /tools
     ```

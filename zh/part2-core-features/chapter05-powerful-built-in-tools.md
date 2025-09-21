@@ -8,13 +8,13 @@ Gemini CLI 的强大之处不仅在于它能理解和生成语言，更在于它
 
 文件系统工具赋予了 Gemini CLI 直接读写本地文件的能力。这意味着 AI 可以像您一样，查看文件内容、创建新文件或修改现有文件。
 
-在前面的章节中，当我们让 AI 生成 `server.js` 并保存时，它其实就是在后台调用了 `write-file` 这个工具。
+在前面的章节中，当我们让 AI 生成 `server.js` 并保存时，它其实就是在后台调用了 `WriteFile` 这个工具。
 
 ### 常见文件工具
 
-*   `read_file`: 读取指定文件的内容。
-*   `write_file`: 将内容写入指定文件（如果文件已存在，则会覆盖）。
-*   `list_directory`: 列出指定目录下的文件和子目录。
+*   `ReadFile`: 读取指定文件的内容。
+*   `WriteFile`: 将内容写入指定文件（如果文件已存在，则会覆盖）。
+*   `ReadFolder`: 列出指定目录下的文件和子目录。
 
 ### 实战示例：代码重构
 
@@ -31,11 +31,11 @@ Gemini CLI 的强大之处不仅在于它能理解和生成语言，更在于它
 **Gemini CLI 的执行过程：**
 
 1.  **智能规划:** 模型接收到指令后，会分析出这是一个多步骤的文件操作任务。
-2.  **调用 `read_file`:** 首先，它会调用 `read_file` 工具来读取 `src/utils.js` 的完整内容，以确保它理解了要移动的函数。
-3.  **调用 `write_file`:** 接着，它会两次调用 `write_file` 工具：
+2.  **调用 `ReadFile`:** 首先，它会调用 `ReadFile` 工具来读取 `src/utils.js` 的完整内容，以确保它理解了要移动的函数。
+3.  **调用 `WriteFile`:** 接着，它会两次调用 `WriteFile` 工具：
     *   第一次，创建 `src/network.js` 并将 `networkRequest` 函数的代码写入。
     *   第二次，创建 `src/data.js` 并将 `dataProcessing` 函数的代码写入。
-4.  **再次调用 `write_file`:** 最后，它会再次调用 `write_file` 来更新 `src/utils.js`，将已经抽离出去的两个函数删除。
+4.  **再次调用 `WriteFile`:** 最后，它会再次调用 `WriteFile` 来更新 `src/utils.js`，将已经抽离出去的两个函数删除。
 5.  **用户确认:** 在每一步关键的文件写入操作前，Gemini CLI 都会向您请求确认，确保一切都在您的掌控之中。
 
 通过这种方式，Gemini CLI 将一个复杂的重构任务，分解为一系列对文件系统工具的原子调用，既自动化了流程，又保证了安全。
@@ -63,7 +63,7 @@ git diff --cached > changes.diff
 
 **Gemini CLI 的执行过程：**
 
-1.  **读取文件:** CLI 将使用其内置的 `read_file` 工具读取 `changes.diff` 的内容。
+1.  **读取文件:** CLI 将使用其内置的 `ReadFile` 工具读取 `changes.diff` 的内容。
 2.  **分析并生成:** 模型将分析 diff 文件中提供的代码变更，并生成一条能够准确描述这些变更的高质量提交信息。
 3.  **清理:** 之后，您可以删除临时的 `changes.diff` 文件。
 
@@ -73,8 +73,8 @@ git diff --cached > changes.diff
 
 现代开发离不开海量网络信息的获取。Gemini CLI 内置了 Web 获取工具，使其具备实时访问互联网的能力。
 
-*   `web_fetch`: 从一个或多个 URL 中获取内容。
-*   `google_web_search`: 执行 Google 搜索并返回结果。
+*   `WebFetch`: 从一个或多个 URL 中获取内容。
+*   `GoogleSearch`: 执行 Google 搜索并返回结果。
 
 ### 实战示例
 
