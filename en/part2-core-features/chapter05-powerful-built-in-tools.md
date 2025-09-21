@@ -130,4 +130,7 @@ For automation, receiving a predictable, structured output is crucial. You can u
 # Get the response as JSON and use `jq` to extract just the text
 gemini -p "What is the capital of France?" --output-format json | jq '.response'
 ```
+
+> **Note on Compatibility:** The `--output-format json` flag is a powerful feature for scripting, but as of late 2025, it may not be available in all stable public releases of `gemini-cli` and could result in an "Unknown arguments" error. This feature is available in preview versions and is expected to be part of the standard command set. If you encounter this error, please check the official `gemini-cli` documentation for the latest command updates.
+
 This combination of headless mode and structured JSON output unlocks endless possibilities for building AI-powered automations right from your command line.
