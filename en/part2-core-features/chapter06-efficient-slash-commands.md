@@ -34,7 +34,7 @@ Gemini CLI provides powerful commands to manage not just your conversation histo
 
 ### Managing Chat Sessions (`/chat` commands)
 
-Instead of saving conversations to external files, the modern Gemini CLI uses a tag-based system to save and restore chat sessions directly within its internal history. This is extremely useful for creating checkpoints in a complex task.
+The modern Gemini CLI uses a tag-based system to save and restore chat sessions. This is an evolution from older versions that saved sessions as `.json` files directly in your project directory. The new approach keeps your workspace clean by managing these snapshots internally, allowing you to reference them with a simple tag instead of a filename. This is extremely useful for creating checkpoints in a complex task.
 
 *   **/chat save <tag>:** Saves the current conversation history under a specific, memorable tag.
     ```
