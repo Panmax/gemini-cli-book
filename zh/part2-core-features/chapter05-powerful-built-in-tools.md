@@ -40,45 +40,34 @@ Gemini CLI 的强大之处不仅在于它能理解和生成语言，更在于它
 
 通过这种方式，Gemini CLI 将一个复杂的重构任务，分解为一系列对文件系统工具的原子调用，既自动化了流程，又保证了安全。
 
-## Shell 工具
+## 与版本控制集成 (Git)
 
-Shell 工具是一个非常强大的功能，它允许 Gemini CLI 直接在您的终端中执行 shell 命令。这极大地扩展了它的能力边界，让它可以完成安装依赖、运行测试、操作 Git 等各种系统级任务。
+出于安全原因，Gemini CLI 并未提供一个可以执行任意 shell 命令的工具。但是，您仍然可以通过将标准的 shell 功能与 CLI 的上下文能力相结合，来创建强大且安全的工作流。一个绝佳的例子就是生成 Git 提交信息。
 
-您可以通过在提示的行首添加 `!` 来手动触发 Shell 工具。
+您可以将 `git` 命令的输出重定向到一个文件中，然后将该文件作为上下文传递给 AI，而不是要求 AI 直接运行 `git` 命令。
 
-### 实战示例：自动化工作流
+### 实战示例：生成 Commit Message
 
-**示例一：安装依赖并启动项目**
-```
-> !npm install && npm run dev
-```
-这个命令会先安装项目依赖，然后启动开发服务器。
-
-**示例二：创建新分支并提交代码**
-```
-> 我的代码修改已经完成了。
-> !git checkout -b feature/new-login-page
-> !git add .
-> !git commit -m "feat: implement new login page"
+**第一步：将您暂存的变更保存到一个文件**
+在您的终端中，运行以下命令，将 `git diff --cached` 的输出保存到一个名为 `changes.diff` 的文件中。
+```bash
+git diff --cached > changes.diff
 ```
 
-**模型自动调用 Shell 工具**
-
-更强大的是，模型可以根据您的自然语言指令，自动生成并执行 shell 命令。
-
-**您的提示：**
+**第二步：请求 Gemini CLI 生成信息**
+现在，将这个文件作为上下文传递给 Gemini CLI。
 ```
-> 请帮我检查一下项目中所有 TypeScript 文件的代码风格。
+> @changes.diff
+> 基于这个 diff 文件中的代码变更，请为我撰写一条简洁并符合规范的 commit message。
 ```
 
-**Gemini CLI 的响应：**
-```
-好的，我将使用 `npx eslint . --ext .ts` 命令来检查 TypeScript 文件的代码风格。
+**Gemini CLI 的执行过程：**
 
-[TOOL] Executing: `npx eslint . --ext .ts`
-[?] Continue? (Y/n)
-```
-模型识别出您的意图，并自动生成了正确的 shell 命令。在执行前，它会清晰地展示将要运行的命令并请求您的批准。
+1.  **读取文件:** CLI 将使用其内置的 `read_file` 工具读取 `changes.diff` 的内容。
+2.  **分析并生成:** 模型将分析 diff 文件中提供的代码变更，并生成一条能够准确描述这些变更的高质量提交信息。
+3.  **清理:** 之后，您可以删除临时的 `changes.diff` 文件。
+
+这种方法既强大又安全。它允许您利用 AI 对代码变更的全部分析能力，而无需授予其执行潜在危险命令的权限。
 
 ## Web 获取工具
 
@@ -118,9 +107,9 @@ Shell 工具是一个非常强大的功能，它允许 Gemini CLI 直接在您�
     ```bash
     gemini --prompt "为最新的代码变更写一条简洁的 git commit 信息" --output-format json
     ```
-2.  **通过标准输入 (stdin):** 这允许您将其他命令的输出通过管道直接传递给 Gemini CLI。
+2.  **通过标准输入 (stdin):** 这允许您将其他命令（如 `cat`）的输出通过管道直接传递给 Gemini CLI 作为上下文。
     ```bash
-    git diff --cached | gemini -p "为这些变更写一条符合约定的 commit message"
+    cat src/utils.js | gemini -p "请为这段 JavaScript 代码生成 JSDoc 风格的文档。"
     ```
 
 ### 获取结构化输出

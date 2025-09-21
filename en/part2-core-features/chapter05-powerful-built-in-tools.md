@@ -40,45 +40,34 @@ Imagine you have a very long function that you want to split into multiple files
 
 In this way, Gemini CLI breaks down a complex refactoring task into a series of atomic calls to file system tools, automating the process while ensuring safety.
 
-## Shell Tool
+## Integrating with Version Control (Git)
 
-The Shell tool is an incredibly powerful feature that allows Gemini CLI to execute shell commands directly in your terminal. This greatly expands its capabilities, enabling it to perform a wide range of system-level tasks such as installing dependencies, running tests, and managing Git.
+While Gemini CLI does not provide a tool to execute arbitrary shell commands for security reasons, you can still create powerful, safe workflows by combining standard shell features with the CLI's context capabilities. A perfect example is generating Git commit messages.
 
-You can manually trigger the Shell tool by adding a `!` at the beginning of your prompt line.
+Instead of asking the AI to run `git` commands directly, you can redirect the output of a `git` command to a file, and then pass that file to the AI as context.
 
-### Practical Example: Automating Workflows
+### Practical Example: Generating a Commit Message
 
-**Example 1: Installing dependencies and starting the project**
-```
-> !npm install && npm run dev
-```
-This command will first install the project's dependencies and then start the development server.
-
-**Example 2: Creating a new branch and committing code**
-```
-> My code changes are complete.
-> !git checkout -b feature/new-login-page
-> !git add .
-> !git commit -m "feat: implement new login page"
+**Step 1: Save your staged changes to a file**
+In your terminal, run the following command to save the output of `git diff --cached` into a file named `changes.diff`.
+```bash
+git diff --cached > changes.diff
 ```
 
-**Model-Automated Shell Tool Calls**
-
-Even more powerfully, the model can automatically generate and execute shell commands based on your natural language instructions.
-
-**Your Prompt:**
+**Step 2: Ask Gemini CLI to generate a message**
+Now, pass this file as context to Gemini CLI.
 ```
-> Please check the code style of all TypeScript files in the project for me.
+> @changes.diff
+> Based on the code changes in this diff, please write a concise and conventional commit message.
 ```
 
-**Gemini CLI's Response:**
-```
-Of course, I will use the `npx eslint . --ext .ts` command to check the code style of the TypeScript files.
+**Gemini CLI's Process:**
 
-[TOOL] Executing: `npx eslint . --ext .ts`
-[?] Continue? (Y/n)
-```
-The model identifies your intent and automatically generates the correct shell command. Before execution, it clearly displays the command that will be run and asks for your approval.
+1.  **Read File:** The CLI will read the content of `changes.diff` using its built-in `read_file` tool.
+2.  **Analyze and Generate:** The model will analyze the code changes provided in the diff and generate a high-quality commit message that accurately describes the changes.
+3.  **Clean Up:** You can then delete the temporary `changes.diff` file.
+
+This approach is both powerful and secure. It allows you to leverage the full analytical power of the AI on your code changes without granting it the ability to execute potentially dangerous commands.
 
 ## Web Fetching Tools
 
@@ -118,9 +107,9 @@ You can provide input in two main ways:
     ```bash
     gemini --prompt "Write a concise git commit message for the latest changes" --output-format json
     ```
-2.  **Via standard input (stdin):** This allows you to pipe content from other commands directly into Gemini CLI.
+2.  **Via standard input (stdin):** This allows you to pipe content from other commands, like `cat`, directly into Gemini CLI to be used as context.
     ```bash
-    git diff --cached | gemini -p "Write a conventional commit message for these changes"
+    cat src/utils.js | gemini -p "Please generate JSDoc-style documentation for this JavaScript code."
     ```
 
 ### Getting Structured Output
