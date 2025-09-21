@@ -25,12 +25,13 @@ Ask me anything, or type /help for a list of commands.
 
 A "Prompt" is the instruction or question you give to Gemini CLI. A good prompt is key to getting a high-quality response. Let's start with a simple task.
 
-After the `> ` prompt, type the following, and then press Enter twice (once for a new line, and once to send):
+After the `> ` prompt, type the following, and then press Enter to send it:
 
 ```
 > Write a Python function to calculate the sum of two numbers.
 ```
 
+For single-line prompts, a single press of the Enter key is all that's needed. If you need to write a multi-line prompt, you can paste the text directly or use `Shift+Enter` to add new lines before sending.
 After sending the prompt, Gemini CLI will connect to the Gemini model for processing, and you will soon see a response similar to the one below.
 
 ## Understanding Gemini CLI's Responses and Output
