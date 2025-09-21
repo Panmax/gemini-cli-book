@@ -122,7 +122,13 @@ gemini config path
 ```
 
 ### 个性化主题设置
-一个常见的配置是自定义主题。您可以在您的用户 `settings.json` 文件中进行设置。
+一个常见的配置是自定义主题。您可以在您的用户 `settings.json` 文件中进行设置。Gemini CLI 自带了多个内置主题供您选择。
+
+**可用的内置主题:**
+- **深色主题:** `ANSI`, `Atom One`, `Ayu`, `Default`, `Dracula`, `GitHub`
+- **浅色主题:** `ANSI Light`, `Ayu Light`, `Default Light`, `GitHub Light`, `Google Code`, `Xcode`
+
+要设置一个主题，例如 `GitHub`，您需要将以下内容添加到您的 `settings.json` 中：
 ```json
 {
   "ui": {

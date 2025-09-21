@@ -122,7 +122,13 @@ gemini config path
 ```
 
 ### Personalizing Theme Settings
-A common configuration is customizing the theme. You can set this in your user `settings.json` file.
+A common configuration is customizing the theme. You can set this in your user `settings.json` file. Gemini CLI comes with several built-in themes you can choose from.
+
+**Available Built-in Themes:**
+- **Dark Themes:** `ANSI`, `Atom One`, `Ayu`, `Default`, `Dracula`, `GitHub`
+- **Light Themes:** `ANSI Light`, `Ayu Light`, `Default Light`, `GitHub Light`, `Google Code`, `Xcode`
+
+To set a theme, for example `GitHub`, you would add the following to your `settings.json`:
 ```json
 {
   "ui": {
