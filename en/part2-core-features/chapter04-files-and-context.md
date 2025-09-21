@@ -85,14 +85,35 @@ Gemini CLI's multimodal capabilities allow it to handle more than just code file
     > Can you identify the potential problem from this image?
     ```
 
-## The Magic of the `GEMINI.md` File
+## The Magic of `GEMINI.md`: Hierarchical Context
 
-`GEMINI.md` is a special file. When you create a `GEMINI.md` file in your project's root directory, Gemini CLI will automatically read its content at the beginning of each session and use it as a **global context** or **system instruction**.
+`GEMINI.md` is a special file. When you create a `GEMINI.md` file, Gemini CLI will automatically read its content at the beginning of each session and use it as a **global context** or **system instruction**. But its true power lies in its **hierarchical loading mechanism**.
 
-This is ideal for defining project-level rules, code style guides, or providing background information.
+### The Upward Search Path
+When you start `gemini`, it intelligently searches for `GEMINI.md` files in a specific order, starting from your current location and moving upwards:
 
-A typical `GEMINI.md` file might look like this:
+1.  **Current & Parent Directories:** It looks for `GEMINI.md` in your current directory, then its parent, and so on, up to the project root (the directory containing a `.git` folder).
+2.  **Global User Directory:** Finally, it checks for a global context file in your home directory at `~/.gemini/GEMINI.md`.
 
+All found `GEMINI.md` files are **merged** together. This allows you to set a "project constitution" at the root, and more specific "local regulations" in subdirectories.
+
+### Practical Example
+Imagine this project structure:
+```
+/my-project/
+├── GEMINI.md  <-- (Project-level rule: Use TypeScript)
+└── src/
+    └── components/
+        ├── GEMINI.md  <-- (Component-level rule: Use functional components)
+        └── UserProfile/
+```
+If you run `gemini` from within the `UserProfile` directory, it will automatically load **both** `GEMINI.md` files. The AI will then know to follow both the project-wide rule (use TypeScript) and the component-specific rule (use functional components).
+
+### How to Verify
+You can see exactly which context files have been loaded at any time by using the `/memory show` command. This is an excellent way to debug and understand the context being provided to the model.
+
+### Example `GEMINI.md` Content
+A typical `GEMINI.md` file at the project root might look like this:
 ```markdown
 # Gemini Guide: My Personal Blog Project
 
@@ -102,14 +123,11 @@ This is a personal blog built with Next.js and TypeScript. The code style follow
 ## Coding Rules
 - Prioritize functional components and Hooks.
 - All components must have corresponding unit tests.
-- API requests should use the `fetch` API with proper error handling.
 - Commit messages must follow the Conventional Commits specification.
 
 ## My Role
-You are a senior Web Development expert. Please follow all the rules above in your responses and provide suggestions in a professional and constructive tone.
+You are a senior Web Development expert. Please follow all the rules above in your responses.
 ```
-
-With this file, Gemini CLI will "remember" these rules in every subsequent query. For example, when you ask it to create a new component, it will automatically follow your defined coding style and remind you to write tests.
 
 ## Using `.geminiignore` to Exclude Unnecessary Files
 
