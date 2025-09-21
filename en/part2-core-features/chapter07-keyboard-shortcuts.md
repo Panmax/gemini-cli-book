@@ -7,7 +7,7 @@ So far, we have explored most of the core features of Gemini CLI. However, to tr
 Gemini CLI has many convenient built-in shortcuts for its interactive session. Mastering them will significantly speed up your workflow. They can be grouped into the following categories:
 
 ### General Shortcuts
-- **`Esc`**: Closes dialogs and suggestions.
+- **`Esc`**: Cancels an in-progress generation or closes dialogs and suggestions.
 - **`Ctrl+C`**: Cancels the ongoing request. Pressing it twice exits the application.
 - **`Ctrl+D`**: Exits the application if the input is empty.
 - **`Ctrl+L`**: Clears the screen.
