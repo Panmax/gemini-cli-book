@@ -44,6 +44,27 @@ If you want Gemini CLI to have a comprehensive understanding of your entire proj
 
 Gemini CLI will recursively read all files in the `src` directory (while intelligently ignoring irrelevant files, which we will discuss later) and fulfill your request based on its understanding of the entire codebase.
 
+### Expanding Context Across Multiple Directories
+Sometimes, your project's context is spread across multiple directories, including parent or sibling directories. This is common in complex project structures where you might need to reference a shared library or documentation from a subdirectory.
+
+To handle this, you can use the `--include-directories` flag to add other folders to the workspace context for a single session. The paths can be relative.
+
+```bash
+# From a subdirectory, include sibling 'lib' and 'docs' directories
+gemini -p "Based on @../lib/utils.js and the conventions in @../docs/api.md, create a new function." --include-directories ../lib,../docs
+```
+
+Once a directory is included, you can use the `@` symbol to reference files within it as if it were part of your main workspace.
+
+For a more permanent setup, you can add these paths to your project's `.gemini/settings.json` file:
+```json
+{
+  "context": {
+    "includeDirectories": ["../lib", "../docs"]
+  }
+}
+```
+
 ## Handling Various File Types
 
 Gemini CLI's multimodal capabilities allow it to handle more than just code files. You can include images, PDFs, and even audio and video files as part of your context.
